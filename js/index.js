@@ -38,7 +38,7 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
         alert("主題:" + it.topic + ", 篇數:" + it.value);
       })
       .transition() //加入放大動畫
-      .duration(500)
+      .duration(1000)
       .attr({
           r : function(it) { return it.r; }, // 用 r 當半徑
       });
