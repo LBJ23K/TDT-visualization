@@ -6,10 +6,10 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
 
   var dataobj = { children: data };
   var pack = d3.layout.pack()
-    .sort(null)
+    .sort(null) //不規則排法
+    // .sort(function(a,b) { return b.value - a.value; })  // 中間由大到小的排法 逆時針
     .size([width, height + bleed * 2])
     .padding(2);
-  // .sort(function(a,b) { return b.value - a.value; });  // 逆時針 中間由大到小的排序方式
   
   var color = d3.scale.category20();
   var svg = d3.select("#root")
