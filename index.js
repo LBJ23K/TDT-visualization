@@ -1,8 +1,8 @@
 csv = d3.dsv(",", "text/csv;charset=big5"); //解決讀csv亂碼的方法 自行定義d3裡面的csv讀取
 csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂碼 改方式
   var bleed = 100;
-  var width = 960;
-  var height = 960;
+  var width = screen.width; //原來用960
+  var height = 1000; //原來用760 圖會被砍掉
 
   var dataobj = { children: data };
   var pack = d3.layout.pack()
