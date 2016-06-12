@@ -9,7 +9,7 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
     .sort(null) //不規則排法
     // .sort(function(a,b) { return b.value - a.value; })  // 中間由大到小的排法 逆時針
     .size([width, height + bleed * 2])
-    .padding(2);
+    .padding(5);
   
   var color = d3.scale.category20();
   var svg = d3.select("#root")
@@ -30,12 +30,17 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
   node.append("circle")
       .attr("class", "circle")             // 新增叫circle的class (css那有對應的hover動作)
       .attr({
-        r : function(it) { return it.r; }, // 用 r 當半徑
+        r : function(it) { return it.r-30; }, // 用 r 當半徑
         fill: function(it) { return color(it.topic); },
         stroke: "#444",                    // 邊框畫深灰色
       })
       .on('click', function(it){
         alert("主題:" + it.topic + ", 篇數:" + it.value);
+      })
+      .transition() //加入放大動畫
+      .duration(500)
+      .attr({
+          r : function(it) { return it.r; }, // 用 r 當半徑
       });
 
   node.append("text")
