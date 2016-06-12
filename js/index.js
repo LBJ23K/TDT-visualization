@@ -32,7 +32,7 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
       .attr({
         r : function(it) { return it.r-30; }, // 用 r 當半徑
         fill: function(it) { return color(it.topic); },
-        stroke: "#444",                    // 邊框畫深灰色
+        stroke: function(it) { return color(it.topic); }, // 邊框畫跟bubble一樣的顏色 hover時會有效果
       })
       .on('click', function(it){
         alert("主題:" + it.topic + ", 篇數:" + it.value);
@@ -45,8 +45,8 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
 
   node.append("text")
       .text(function(it)  { return (it.value>30 ? it.topic : ""); }) // 篇數如果大於一定程度，會顯示標題
-      .style("font-size", function(d) { return Math.min(2 * d.r, (2 * d.r - 8) / this.getComputedTextLength() * 24) + "px"; })
-      .attr("dy", ".35em");
+      .style("font-size", function(d) { return Math.min(1.8 * d.r, (1.8 * d.r - 8) / this.getComputedTextLength() * 24) + "px"; })
+      .attr("dy", ".35em"); //往y軸移動的樣子
   });
 
   // var nodes = pack.nodes(dataobj);
