@@ -8,3 +8,6 @@ body {
 #root {
   margin: 20px;
 }
+.circle:hover {
+  fill: white;
+}

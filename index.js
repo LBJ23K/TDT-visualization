@@ -9,7 +9,8 @@ d3.csv("population.csv", function(data) {
     .selectAll("circle")                 // 建立 circle 的 Selection
     .data(nodes)                         // 綁定 selection 與資料
     .enter()                             // 對於任何沒被對應而落單的資料 ...
-    .append("circle")                    // 新增一個 circle 標籤
+    .append("circle")                    // 新增一個 circle 的html tag
+    .attr("class", "circle")             // 新增叫circle的class (css那有對應的hover動作)
     .attr({
       cx: function(it) { return it.x; }, // 用 x,y 當圓心
       cy: function(it) { return it.y; },
