@@ -5,6 +5,9 @@ body {
   margin: 0;
   padding: 0;
 }
+p {
+  font-family: 'Noto Sans TC', sans-serif;
+}
 #root {
   margin: 20px;
 }
@@ -12,7 +15,7 @@ body {
   fill: white;
 }
 text {
-  font: 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 24px 'Noto Sans TC', sans-serif; /* font: 24px "Helvetica Neue", Helvetica, Arial, sans-serif; */
   text-anchor: middle;
   pointer-events: none;
 }
