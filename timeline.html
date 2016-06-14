@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timeline</title>
+  <!-- <link href="css/index.css" rel="stylesheet"> -->
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
+
+
+  <!-- Custom CSS -->
+  <style>
+    .axis path{
+      fill: none;
+      stroke-width: 2px;
+      stroke: #222;
+    }
+
+    .axis line{
+      fill: none;
+      stroke-width: 1px;
+      stroke: #222;
+    }
+
+    .axis text{
+      font-size: 10px;
+    }
+
+    text.label-text{
+      font-size: 12px;
+    }
+
+    body{
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      text-align: center;
+      background-color: #eee;
+    }
+
+    hr{
+      border: 1px solid #eee;
+    }
+
+    .timeline{
+      display: inline-block;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- For timeline usage -->
+  <script src="js/timeline/d3.min.js"></script>
+  <script src="js/timeline/d3kit.min.js"></script>
+  <script src="js/timeline/labella.min.js"></script>
+  <script src="js/timeline/d3kit-timeline.min.js"></script>
+
+
+  <script>
+  /* globals d3, d3Kit, d3KitTimeline */
+    'use strict';
+
+    //可以多帶參數 也可以設定label上要顯示的方法 test這邊就是自己帶入的參數
+    //Date裡的參數依序是年月日時... 設置的比較細 timeline就會自動調整它的範圍 不用擔心
+    var data = [
+      {time: new Date(2015,11,13,5,10), episode: 4, name: '小英當選', test: 'jimmy'},
+      {time: new Date(2015,11,12,6,11), episode: 5, name: '蔡英文勝選', test: 'jimmy'},
+      {time: new Date(2015,11,15,23,12), episode: 6, name: '小英成為第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,11,9,12), episode: 1, name: '蔡英文當選', test: 'jimmy'},
+      {time: new Date(2015,11,12,10,10), episode: 2, name: '台灣第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,13,11,1), episode: 3, name: '小英勝選', test: 'jimmy'},
+      {time: new Date(2015,11,18,12,10), episode: 7, name: '蔡英文成為第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,13,5,10), episode: 4, name: '小英當選', test: 'jimmy'},
+      {time: new Date(2015,11,12,6,11), episode: 5, name: '蔡英文勝選', test: 'jimmy'},
+      {time: new Date(2015,11,15,23,12), episode: 6, name: '小英成為第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,11,9,12), episode: 1, name: '蔡英文當選', test: 'jimmy'},
+      {time: new Date(2015,11,12,10,10), episode: 2, name: '台灣第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,13,11,1), episode: 3, name: '小英勝選', test: 'jimmy'},
+      {time: new Date(2015,11,18,12,10), episode: 7, name: '蔡英文成為第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,13,5,10), episode: 4, name: '小英當選', test: 'jimmy'},
+      {time: new Date(2015,11,12,6,11), episode: 5, name: '蔡英文勝選', test: 'jimmy'},
+      {time: new Date(2015,11,15,23,12), episode: 6, name: '小英成為第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,11,9,12), episode: 1, name: '蔡英文當選', test: 'jimmy'},
+      {time: new Date(2015,11,12,10,10), episode: 2, name: '台灣第一個女總統', test: 'jimmy'},
+      {time: new Date(2015,11,13,11,1), episode: 3, name: '小英勝選', test: 'jimmy'},
+      {time: new Date(2015,11,18,12,10), episode: 7, name: '蔡英文成為第一個女總統', test: 'jimmy'},
+    ];
+
+    var colorScale = d3.scale.category10();
+    function color4(d){
+      return colorScale(Math.ceil(d.episode/3));
+    }
+  </script>
+
+
+  
+
+  <!-- 縱向時間軸 向右 -->
+  <div class="timeline" id="t1"></div>
+  <script>
+  var chart = new d3KitTimeline('#t1', {
+      direction: 'right',
+      // initialWidth: screen.width/5*4.5, 
+      // initialHeight: screen.height, //不設定他好像就會自動調整高度
+      textFn: function(d){ //定義label上要顯示什麼字
+        return d.time.getMonth() + '/' + d.time.getDate() + ' - ' + d.name;
+      },
+      dotColor: color4,
+      labelBgColor: color4,
+      linkColor: color4,
+      labella: {
+        maxPos: 800,
+        algorithm: 'simple'
+      },
+    });
+    chart.data(data).resizeToFit(); //如果是左右顯示 它自動調寬度; 如果是上下顯示法 它自動調高度
+    //click事件
+    chart.on("labelClick", function(obj,count){
+      console.log(obj); //印出object內容在console上
+      alert(obj["name"]);
+    });
+  </script>
+
+
+  <!-- 橫向時間軸 向下 -->
+  <br><div class="timeline" id="timeline4"></div>
+
+  <script>
+  var chart4 = new d3KitTimeline('#timeline4', {
+    direction: 'down',
+    initialWidth: 804,
+    margin: {left: 20, right: 20, top: 30, bottom: 20},
+    textFn: function(d){return d.name;},
+    layerGap: 40,
+    dotColor: color4,
+    labelBgColor: color4,
+    linkColor: color4,
+    labella: {
+      maxPos: 800,
+      algorithm: 'simple'
+    }
+  });
+  chart4.data(data).resizeToFit();
+  chart4.on("labelClick", function(obj,count){
+    console.log(obj); //印出object內容在console上
+    alert(obj["name"]);
+  });
+  </script>
+
+</body>
+
+
+
+
+
+
