@@ -36,6 +36,9 @@ csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂
       })
       .on('click', function(it){
         alert("主題:" + it.topic + ", 篇數:" + it.value);
+        //跳轉到timeline 帶參數
+        var target = encodeURI("timeline.html?topic=" + it.topic);
+        window.location.href = target;
       })
       .transition() //加入放大動畫
       .duration(1000)
