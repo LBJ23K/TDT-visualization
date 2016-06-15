@@ -4,197 +4,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timeline</title>
-  <!-- <link href="css/index.css" rel="stylesheet"> -->
-  <!-- Bootstrap Core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="http://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
-
-
-  <!-- Custom CSS -->
-  <style>
-    body {
-       padding-top: 70px;
-      /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    }
-    .axis path{
-      fill: none;
-      stroke-width: 2px;
-      stroke: #222;
-    }
-
-    .axis line{
-      fill: none;
-      stroke-width: 1px;
-      stroke: #222;
-    }
-
-    .axis text{
-      font-size: 10px;
-    }
-
-    text.label-text{
-      font-size: 12px;
-    }
-
-    body{
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      text-align: center;
-      background-color: #eee;
-    }
-
-    hr{
-      border: 0.5px solid #DDDDDD;
-    }
-
-    .timeline{
-      margin-top: 20px;
-      margin-bottom: 50px; 
-      display: inline-block;
-      border: 1px solid #ccc;
-      background-color: #fff;
-    }
-  </style>
+  <link href="css/timeline.css" rel="stylesheet">
 
 </head>
 
 <body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <a class="navbar-brand" href="index.html">TDT-NEWS-VISUALIZATION</a>
+          </div>
+      </div>
+      <!-- /.container -->
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12 text-center">
+              <h1 id="title" style="font-family: 'Noto Sans TC', sans-serif;"></h1>
+              <p class="lead">新聞事件時間軸</p>
+              <!-- <ul class="list-unstyled">
+                  <li>About</li>
+                  <li>Contact</li>
+              </ul> -->
+          </div>
+      </div>
+      <!-- /.row -->
+      <hr> <!-- bootstrap的分隔線 -->
+
+  </div>
+  <!-- /.container -->
+
+
+  <!-- 縱向時間軸 向右 -->
+  <div class="timeline" id="tl"></div>
+
+
+
+  <!-- jQuery Version 1.11.1 -->
   <script src="js/jquery.js"></script>
-  
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
   <!-- For timeline usage -->
   <script src="js/timeline/d3.min.js"></script>
   <script src="js/timeline/d3kit.min.js"></script>
   <script src="js/timeline/labella.min.js"></script>
   <script src="js/timeline/d3kit-timeline.min.js"></script>
-
-
-  <script>
-  /* globals d3, d3Kit, d3KitTimeline */
-    'use strict';
-
-    //可以多帶參數 也可以設定label上要顯示的方法 test這邊就是自己帶入的參數
-    //Date裡的參數依序是年月日時... 設置的比較細 timeline就會自動調整它的範圍 不用擔心
-    var data = [
-      {time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
-      {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
-      {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
-      {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
-      {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},{time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
-      // {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    ];
-
-    //定義顏色
-    var colorScale = d3.scale.category10();
-    function color(d){
-      return colorScale(d.name); //依據標題分派顏色
-    }
-
-    //解剖url上的get訊息
-    function $_GET(param) {
-      var vars = {};
-      window.location.href.replace( location.hash, '' ).replace( 
-        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-        function( m, key, value ) { // callback
-          vars[key] = value !== undefined ? value : '';
-        }
-      );
-
-      if ( param ) {
-        return vars[param] ? vars[param] : null;  
-      }
-      return vars;
-    }
-  </script>
-
-
-  
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">TDT-NEWS-VISUALIZATION</a>
-            </div>
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Page Content -->
-    <div class="container">
-
-        <!-- Jumbotron Header -->
-        <!-- <header class="jumbotron hero-spacer">
-            <h1>TDT新聞視覺化</h1>
-            <p>自動幫你分類出最近發生的新聞事件</p>
-        </header> -->
-
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h1 id="title" style="font-family: 'Noto Sans TC', sans-serif;"></h1>
-                <p class="lead">新聞事件時間軸</p>
-                <!-- <ul class="list-unstyled">
-                    <li>Bootstrap v3.3.6</li>
-                    <li>jQuery v1.11.1</li>
-                </ul> -->
-            </div>
-        </div>
-        <!-- /.row -->
-        <hr> <!-- bootstrap的分隔線 -->
-
-    </div>
-    <!-- /.container -->
+  <!-- /. For timeline usage -->
+  <script src="js/timeline/timeline.js"></script>
 
 
 
-  <!-- 縱向時間軸 向右 -->
-  <div class="timeline" id="t1"></div>
-  <script>
-  //取得GET過來的資訊
-  var topic = $_GET("topic");
-  topic = decodeURI(topic); //傳過來的時候有encode 所以讀取的時候要decode
-  $("#title").text(topic);
-
-  var chart = new d3KitTimeline('#t1', {
-      direction: 'right',
-      // initialWidth: screen.width/5*4.5, 
-      initialHeight: screen.height, //不設定他好像就會自動調整高度？
-      margin: {left: 100, right: 30, top: 50, bottom: 50},
-      textFn: function(d){ //定義label上要顯示什麼字
-        return d.time.getMonth() + '/' + d.time.getDate() + ' - ' + d.name;
-      },
-      dotColor: color,
-      labelBgColor: color,
-      linkColor: color,
-      labella: {
-        maxPos: 1000,
-        algorithm: 'simple'
-      },
-      labelPadding: {left: 10, right: 10, top: 12, bottom: 12}, //調整標籤大小的感覺
-    });
-    chart.data(data).resizeToFit(); //如果是左右顯示 它自動調寬度; 如果是上下顯示法 它自動調高度
-    //click事件
-    chart.on("labelClick", function(obj,count){
-      console.log(obj); //印出object內容在console上
-      // alert(obj["name"]);
-
-      //跳轉新分頁 開啟新聞的url
-      var newwin = window.open();
-      newwin.location= obj["url"];
-    });
-  </script>
 
 
   <!-- 橫向時間軸 向下 -->

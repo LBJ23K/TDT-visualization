@@ -1,0 +1,41 @@
+body {
+   padding-top: 70px;
+  /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+.axis path{
+  fill: none;
+  stroke-width: 2px;
+  stroke: #222;
+}
+
+.axis line{
+  fill: none;
+  stroke-width: 1px;
+  stroke: #222;
+}
+
+.axis text{
+  font-size: 10px;
+}
+
+text.label-text{
+  font-size: 12px;
+}
+
+body{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-align: center;
+  background-color: #eee;
+}
+
+hr{
+  border: 0.5px solid #DDDDDD;
+}
+
+.timeline{
+  margin-top: 20px;
+  margin-bottom: 50px; 
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
