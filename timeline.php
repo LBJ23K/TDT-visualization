@@ -29,7 +29,26 @@
       $count++;
     }
 
-    echo $sql;
+    // echo $sql;
+
+    $result = $conn->query($sql) or die($conn->error);
+    //排除所選的tag 印出其他的tag 要把重複的去掉
+    $final_tag_arr = [];
+    $count = 0;
+    while($row = $result -> fetch_assoc()){
+      $t = $row["tag"];
+      if(!in_array($t, $final_tag_arr) && $t!=$_GET["tag"]){
+        $final_tag_arr[$count] = $t;
+        $count++;
+      }
+    }
+
+    //印出最後的tag
+    foreach ($final_tag_arr as $t) {
+      // <div class='checkbox'>
+      echo "<label><input type='checkbox' value=''>".$t."</label>";
+      // echo $t." ";
+    }
 
 
 ?>

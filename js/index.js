@@ -32,16 +32,16 @@ $(document).ready(function(){
         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
     node.append("circle")
-        .attr("class", "circle")             // 新增叫circle的class (css那有對應的hover動作)
+        .attr("class", "circle")  // 新增叫circle的class (css那有對應的hover動作)
         .attr({
           r : function(it) { return it.r-30; }, // 用 r 當半徑
-          fill: function(it) { return color(it.topic); },
-          stroke: function(it) { return color(it.topic); }, // 邊框畫跟bubble一樣的顏色 hover時會有效果
+          fill: function(it) { return color(it.tag); },
+          stroke: function(it) { return color(it.tag); }, // 邊框畫跟bubble一樣的顏色 hover時會有效果
         })
         .on('click', function(it){
-          alert("主題:" + it.topic + ", 篇數:" + it.value);
+          alert("主題:" + it.tag + ", 篇數:" + it.value);
           //跳轉到timeline 帶參數
-          var target = encodeURI("timeline.html?topic=" + it.topic);
+          var target = encodeURI("timeline.php?tag=" + it.tag);
           window.location.href = target;
         })
         .transition() //加入放大動畫
@@ -51,7 +51,7 @@ $(document).ready(function(){
         });
 
     node.append("text")
-        .text(function(it)  { return (it.value>30 ? it.topic : ""); }) // 篇數如果大於一定程度，會顯示標題
+        .text(function(it)  { return (it.value>30 ? it.tag : ""); }) // 篇數如果大於一定程度，會顯示標題
         .style("font-size", function(d) { return Math.min(1.8 * d.r, (1.8 * d.r - 8) / this.getComputedTextLength() * 24) + "px"; })
         .attr("dy", ".35em"); //往y軸移動的樣子
     });
@@ -67,11 +67,11 @@ $(document).ready(function(){
     //     cx: function(it) { return it.x; }, // 用 x,y 當圓心
     //     cy: function(it) { return it.y; },
     //     r : function(it) { return it.r; }, // 用 r 當半徑
-    //     fill: function(it) { return color(it.topic); },
+    //     fill: function(it) { return color(it.tag); },
     //     stroke: "#444",                    // 邊框畫深灰色
     //   })
     //   .on('click', function(it){
-    //       alert("主題:" + it.topic + ", 篇數:" + it.value);
+    //       alert("主題:" + it.tag + ", 篇數:" + it.value);
     //   });
     // // alert("中文測試");
     // d3.select("svg").selectAll("text").data(nodes).enter()
@@ -81,7 +81,7 @@ $(document).ready(function(){
     //     x: function(it) { return it.x; },
     //     y: function(it) { return it.y; },
     //     "text-anchor": "middle",                    // 文字水平置中
-    //   }).text(function(it)  { return (it.value>30 ? it.topic : ""); }); // 篇數如果大於一定程度，會顯示標題
+    //   }).text(function(it)  { return (it.value>30 ? it.tag : ""); }); // 篇數如果大於一定程度，會顯示標題
 
     // });
 

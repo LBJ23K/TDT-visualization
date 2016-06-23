@@ -55,7 +55,7 @@ $(document).ready(function(){
         jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
         // alert(jsonObj[count]['time']);
       }
-      renderTimeline(jsonObj); //重印timeline
+      renderTimeline(jsonObj, tag); //重印timeline
     }
   });
 
@@ -86,7 +86,7 @@ $(document).ready(function(){
 
   function renderTimeline(json_data, tag){
     //Start to handle page task
-    $("#title").text(tag);
+    $("#title").text("選取tag：" + tag);
 
     var chart = new d3KitTimeline('#tl', {
         direction: 'right',

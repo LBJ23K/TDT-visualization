@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2016-06-23 14:18:36
+-- 產生時間： 2016-06-23 14:53:31
 -- 伺服器版本: 5.6.26
 -- PHP 版本： 5.6.12
 
@@ -72,6 +72,28 @@ INSERT INTO `news` (`id`, `title`, `content`, `summary`, `cluster_id`, `time`) V
 (3, '林書豪想養寵物', '他有錢\r\n他想養寵物\r\nㄏ他有錢\r\n他想養寵物\r\nㄏ他有錢\r\n他想養寵物\r\nㄏ他有錢\r\n他想養寵物\r\nㄏ', '', 3, '2016-06-01 00:00:00'),
 (4, '林書豪跟蔡英文打籃球', '書豪愛打籃球\r\n打籃球很棒\r\n真的很棒書豪愛打籃球\r\n打籃球很棒\r\n真的很棒書豪愛打籃球\r\n打籃球很棒\r\n真的很棒', '', 4, '2016-06-14 00:00:00');
 
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `tag_news_count`
+--
+
+CREATE TABLE IF NOT EXISTS `tag_news_count` (
+  `fake_id` int(11) NOT NULL,
+  `tag` varchar(1000) CHARACTER SET utf8 NOT NULL,
+  `count` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `tag_news_count`
+--
+
+INSERT INTO `tag_news_count` (`fake_id`, `tag`, `count`) VALUES
+(2, '蔡英文', 1000),
+(3, '林書豪', 800),
+(4, '寵物', 500),
+(5, '寵物', 500);
+
 --
 -- 已匯出資料表的索引
 --
@@ -92,6 +114,12 @@ ALTER TABLE `news`
   ADD KEY `cid` (`cluster_id`);
 
 --
+-- 資料表索引 `tag_news_count`
+--
+ALTER TABLE `tag_news_count`
+  ADD PRIMARY KEY (`fake_id`);
+
+--
 -- 在匯出的資料表使用 AUTO_INCREMENT
 --
 
@@ -105,6 +133,11 @@ ALTER TABLE `cluster_tag`
 --
 ALTER TABLE `news`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- 使用資料表 AUTO_INCREMENT `tag_news_count`
+--
+ALTER TABLE `tag_news_count`
+  MODIFY `fake_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
