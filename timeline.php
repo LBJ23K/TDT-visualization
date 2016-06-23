@@ -1,3 +1,39 @@
+<?php
+    include("db_connect.php");
+    //第一次 取得get上的主tag 抓出有這個tag的cluster的所有tag印在畫面上
+    $tag = $_GET["tag"];
+    $sql="SELECT `cluster_id` FROM `cluster_tag` WHERE tag = '".$tag."'"; 
+    $result = $conn->query($sql) or die($conn->error);
+
+    //先抓出主tag所在的所有cluster存進陣列
+    $cluster_arr = [];
+    $i = 0;
+    while($row = $result -> fetch_assoc()){
+      // echo $row["tag"];
+      $cluster_arr[$i] = $row["cluster_id"];
+      $i++;
+    }
+
+    //用陣列去反搜尋有什麼其他tag關鍵字
+    //同樣的要合併
+    $sql="SELECT * FROM `cluster_tag` WHERE ";
+    $arr_len = count($cluster_arr);
+    $count = 0;
+    foreach($cluster_arr as $c){
+      if($arr_len-1 != $count){ 
+        $sql .= "cluster_id = '" . $c . "' OR ";
+      }
+      else{ //如果是最後一輪 不用加OR
+        $sql .= "cluster_id = '" . $c . "'";
+      }
+      $count++;
+    }
+
+    echo $sql;
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head prefix="og: http://ogp.me/ns#">

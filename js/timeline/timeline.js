@@ -29,10 +29,14 @@ $(document).ready(function(){
   ];
 
 
+  //取得GET過來的資訊
+  var tag = $_GET("tag");
+  tag = decodeURI(tag); //傳過來的時候有encode 所以讀取的時候要decode
+
   //要傳的tag的陣列
   var tag_arr = [];
   // tag_arr.push("蔡英文");
-  tag_arr.push("林書豪");
+  tag_arr.push(tag);
     // tag_arr.push("寵物");
 
 
@@ -80,12 +84,9 @@ $(document).ready(function(){
   }
 
 
-  function renderTimeline(json_data){
+  function renderTimeline(json_data, tag){
     //Start to handle page task
-    //取得GET過來的資訊
-    var topic = $_GET("topic");
-    topic = decodeURI(topic); //傳過來的時候有encode 所以讀取的時候要decode
-    $("#title").text(topic);
+    $("#title").text(tag);
 
     var chart = new d3KitTimeline('#tl', {
         direction: 'right',

@@ -14,14 +14,14 @@
 	//撈出傳過來tag他們所屬的cluster 存成array 準備取交集
 	$all_arr = [];
 	foreach ($tag_arr as $count => $tag) {
-		$sql="SELECT `clusterId` FROM `cluster_tag` WHERE tag = '".$tag."'"; 
+		$sql="SELECT `cluster_id` FROM `cluster_tag` WHERE tag = '".$tag."'"; 
 		$result = $conn->query($sql) or die($conn->error);
 		// echo $requslt;
 		$arr = [];
 		$i = 0;
 		while($row = $result -> fetch_assoc()){
 			// echo $row["tag"];
-			$arr[$i] = $row["clusterId"];
+			$arr[$i] = $row["cluster_id"];
 			$i++;
 		}	
 		// echo $count;
@@ -35,7 +35,7 @@
 	if(count($all_arr)>1){
 		$intersect_cluster = call_user_func_array('array_intersect', $all_arr);	
 	}
-	else{ 
+	else{
 		$intersect_cluster = $all_arr[0];
 	}
 	//印出交集的cluster是哪些
@@ -51,11 +51,10 @@
 	$arr_len = count($intersect_cluster);
 	$count = 0;
 	foreach ($intersect_cluster as $key) {
-
-		if($arr_len-1 != $count){ //如果是最後一輪 不用加OR
+		if($arr_len-1 != $count){ 
 			$sql .= "cluster_id = '" . $key . "' OR ";
 		}
-		else{
+		else{ //如果是最後一輪 不用加OR
 			$sql .= "cluster_id = '" . $key . "'";
 		}
 		$count++;
