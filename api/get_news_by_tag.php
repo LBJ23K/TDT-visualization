@@ -57,6 +57,8 @@
 	$count = 0;
 	while($row = $result -> fetch_assoc()){ //印出新聞
 
+		// $date = new DateTime($row["time"]);
+
 		$json_arr[$count] = array(
 			"title" => $row["title"],
 			"content" => $row["content"],
