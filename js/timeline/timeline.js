@@ -31,8 +31,10 @@ $(document).ready(function(){
 
   //要傳的tag的陣列
   var tag_arr = [];
-  tag_arr.push("蔡英文");
+  // tag_arr.push("蔡英文");
   tag_arr.push("林書豪");
+    // tag_arr.push("寵物");
+
 
   $.ajax({
     url: 'api/get_news_by_tag.php',
