@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  //這裡要把從csv讀取 改成用$.ajax跟某支php要data 傳的參數是時間區間(15天) 回傳cluster再去render node
+  //另外調整時間區間 就要重新畫圖 重新跟php要data 考慮用快取來處理 不要一直query
   csv = d3.dsv(",", "text/csv;charset=big5"); //解決讀csv亂碼的方法 自行定義d3裡面的csv讀取
   csv("cluster.csv", function(data) {   //原來適用d3.csv開頭 但要解決亂碼 改方式
     var bleed = 100;
