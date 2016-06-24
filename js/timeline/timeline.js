@@ -42,7 +42,7 @@ $(document).ready(function(){
 
   $.ajax({
     url: 'api/get_news_by_tag.php',
-    dataType: "json",
+    dataType: "json", //讓回傳的東西直接是js看得懂的jsonObj
     type:'POST',                
     data: {tag_arr: tag_arr},
     error:function(e){
