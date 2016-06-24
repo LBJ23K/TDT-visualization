@@ -17,17 +17,17 @@ $(document).ready(function(){
 
 
   //取得GET過來的資訊
-  var tag = $_GET("tag");
-  tag = decodeURI(tag); //傳過來的時候有encode 所以讀取的時候要decode
+  var origin_tag = $_GET("tag");
+  origin_tag = decodeURI(origin_tag); //傳過來的時候有encode 所以讀取的時候要decode
 
   //要傳的tag的陣列
   var tag_arr = [];
   // tag_arr.push("蔡英文");
-  tag_arr.push(tag);
+  tag_arr.push(origin_tag);
   // tag_arr.push("寵物");
 
 
-  //第一次load近來 先抓一次api
+  //第一次load近來 先抓一次tag包含新聞的api
   $.ajax({
     url: 'api/get_news_by_tag.php',
     dataType: "json", //讓回傳的東西直接是js看得懂的jsonObj
@@ -43,20 +43,27 @@ $(document).ready(function(){
         jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
         // alert(jsonObj[count]['time']);
       }
-      renderTimeline(jsonObj, tag); //重印timeline
+      renderTimeline(jsonObj, origin_tag); //重印timeline
     }
   });
 
 
-  //接下來監聽checkbox的動作 每次有動作就觸發 重抓api
-  $('.chk').change(function() {
+  //第一次load近來 先抓一次相關tag的API
+  get_intersect_tag(tag_arr);
 
-    var tag_arr = [];
 
-    $('.chk:checked').each(function(){
-      // alert($(this).attr("value"));/要傳的tag的陣列
-      // tag_arr.push("蔡英文");
-      tag_arr.push($(this).attr("value"));
+
+
+  function checkBoxBhange(){
+    //接下來監聽checkbox的動作 每次有動作就觸發 重抓api
+    $('.chk').change(function() {
+
+      var tag_arr = [];
+      tag_arr.push(origin_tag);
+
+      $('.chk:checked').each(function(){
+        tag_arr.push($(this).attr("value"));
+      });
 
       //抓完選取的checkbox後 重刷頁面
       $.ajax({
@@ -74,12 +81,53 @@ $(document).ready(function(){
             jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
             // alert(jsonObj[count]['time']);
           }
-          renderTimeline(jsonObj, tag); //重印timeline
+          renderTimeline(jsonObj, origin_tag); //重印timeline
+
+          // alert("a");
+          get_intersect_tag(tag_arr);
+
         }
       });
+      
+    }); 
+  }
+  
+
+  function get_intersect_tag(tag_arr){
+    $.ajax({
+      url: 'api/get_intersect_tags.php',
+      dataType: "json", //讓回傳的東西直接是js看得懂的jsonObj
+      type:'POST',                
+      data: {
+              tag_arr: tag_arr,
+              origin_tag: origin_tag,
+            },
+      error:function(e){
+        alert('Ajax request 發生錯誤');
+      },
+      success: function(jsonObj){
+
+        $("#checkbox_area").html("");
+
+        var view = "";
+        for(var count in jsonObj){
+          var t = jsonObj[count];
+          if(tag_arr.indexOf(t) > -1){
+            view += ("<label><input type='checkbox' class='chk' checked value='"+t+"'>"+t+"</label>");
+          }
+          else{
+            view += ("<label><input type='checkbox' class='chk' value='"+t+"'>"+t+"</label>");
+          }
+          // alert(jsonObj[count]);
+        }
+        $("#checkbox_area").html(view);
+
+        checkBoxBhange();
+        // echo "<label><input type='checkbox' class='chk' value='".$t."'>".$t."</label>";
+      }
     });
-    
-  }); 
+  }
+
 
 
 
@@ -106,9 +154,9 @@ $(document).ready(function(){
   }
 
 
-  function renderTimeline(json_data, tag){
+  function renderTimeline(json_data, origin_tag){
     //Start to handle page task
-    $("#title").text("選取tag：" + tag);
+    $("#title").text("選取tag：" + origin_tag);
 
     $("#tl").html(""); //先清空時間軸 再重畫
 

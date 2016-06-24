@@ -1,54 +1,54 @@
 <?php
-    include("db_connect.php");
-    //第一次 取得get上的主tag 抓出有這個tag的cluster的所有tag印在畫面上
-    $tag = $_GET["tag"];
-    $sql="SELECT `cluster_id` FROM `cluster_tag` WHERE tag = '".$tag."'"; 
-    $result = $conn->query($sql) or die($conn->error);
+    // include("db_connect.php");
+    // //第一次 取得get上的主tag 抓出有這個tag的cluster的所有tag印在畫面上
+    // $tag = $_GET["tag"];
+    // $sql="SELECT `cluster_id` FROM `cluster_tag` WHERE tag = '".$tag."'"; 
+    // $result = $conn->query($sql) or die($conn->error);
 
-    //先抓出主tag所在的所有cluster存進陣列
-    $cluster_arr = [];
-    $i = 0;
-    while($row = $result -> fetch_assoc()){
-      // echo $row["tag"];
-      $cluster_arr[$i] = $row["cluster_id"];
-      $i++;
-    }
+    // //先抓出主tag所在的所有cluster存進陣列
+    // $cluster_arr = [];
+    // $i = 0;
+    // while($row = $result -> fetch_assoc()){
+    //   // echo $row["tag"];
+    //   $cluster_arr[$i] = $row["cluster_id"];
+    //   $i++;
+    // }
 
-    //用陣列去反搜尋有什麼其他tag關鍵字
-    //同樣的要合併
-    $sql="SELECT * FROM `cluster_tag` WHERE ";
-    $arr_len = count($cluster_arr);
-    $count = 0;
-    foreach($cluster_arr as $c){
-      if($arr_len-1 != $count){ 
-        $sql .= "cluster_id = '" . $c . "' OR ";
-      }
-      else{ //如果是最後一輪 不用加OR
-        $sql .= "cluster_id = '" . $c . "'";
-      }
-      $count++;
-    }
+    // //用陣列去反搜尋有什麼其他tag關鍵字
+    // //同樣的要合併
+    // $sql="SELECT * FROM `cluster_tag` WHERE ";
+    // $arr_len = count($cluster_arr);
+    // $count = 0;
+    // foreach($cluster_arr as $c){
+    //   if($arr_len-1 != $count){ 
+    //     $sql .= "cluster_id = '" . $c . "' OR ";
+    //   }
+    //   else{ //如果是最後一輪 不用加OR
+    //     $sql .= "cluster_id = '" . $c . "'";
+    //   }
+    //   $count++;
+    // }
 
-    // echo $sql;
+    // // echo $sql;
 
-    $result = $conn->query($sql) or die($conn->error);
-    //排除所選的tag 印出其他的tag 要把重複的去掉
-    $final_tag_arr = [];
-    $count = 0;
-    while($row = $result -> fetch_assoc()){
-      $t = $row["tag"];
-      if(!in_array($t, $final_tag_arr) && $t!=$_GET["tag"]){
-        $final_tag_arr[$count] = $t;
-        $count++;
-      }
-    }
+    // $result = $conn->query($sql) or die($conn->error);
+    // //排除所選的tag 印出其他的tag 要把重複的去掉
+    // $final_tag_arr = [];
+    // $count = 0;
+    // while($row = $result -> fetch_assoc()){
+    //   $t = $row["tag"];
+    //   if(!in_array($t, $final_tag_arr) && $t!=$_GET["tag"]){
+    //     $final_tag_arr[$count] = $t;
+    //     $count++;
+    //   }
+    // }
 
-    //印出最後的tag
-    foreach ($final_tag_arr as $t) {
-      // <div class='checkbox'>
-      echo "<label><input type='checkbox' class='chk' value='".$t."'>".$t."</label>";
-      // echo $t." ";
-    }
+    // //印出最後的tag
+    // foreach ($final_tag_arr as $t) {
+    //   // <div class='checkbox'>
+    //   echo "<label><input type='checkbox' class='chk' value='".$t."'>".$t."</label>";
+    //   // echo $t." ";
+    // }
 
 
 ?>
@@ -83,6 +83,8 @@
           <div class="col-lg-12 text-center">
               <h1 id="title" style="font-family: 'Noto Sans TC', sans-serif;"></h1>
               <p class="lead">新聞事件時間軸</p>
+              
+              <div id="checkbox_area"></div>
               <!-- <ul class="list-unstyled">
                   <li>About</li>
                   <li>Contact</li>

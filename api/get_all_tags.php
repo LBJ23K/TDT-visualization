@@ -15,7 +15,7 @@
 
 	include("../db_connect.php");
 	
-	$sql="SELECT * FROM `tag_news_count` WHERE `count`>10 "; 
+	$sql="SELECT * FROM `tag_news_count` WHERE `count`>10 AND `count`<3000"; 
 	$result = $conn->query($sql) or die($conn->error);
 
 	$arr = [];
