@@ -5,28 +5,15 @@ $(document).ready(function(){
 
   //可以多帶參數 也可以設定label上要顯示的方法 url就是自己帶入的參數
   //Date裡的參數依序是年月日時... 設置的比較細 timeline就會自動調整它的範圍
-  var data = [
-    {time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
-    {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
-    {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
-    {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
-    {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},{time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
-    // {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
-  ];
+  // var data = [
+  //   {time: new Date(2015,11,13,5,10), name: '小英當選', url: 'http://goo.gl/kLLY9Y'},
+  //   {time: new Date(2015,11,12,6,11), name: '蔡英文勝選', url: 'http://goo.gl/kLLY9Y'},
+  //   {time: new Date(2015,11,15,23,12), name: '小英成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
+  //   {time: new Date(2015,11,11,9,12), name: '蔡英文當選', url: 'http://goo.gl/kLLY9Y'},
+  //   {time: new Date(2015,11,12,10,10), name: '台灣第一個女總統', url: 'http://goo.gl/kLLY9Y'},
+  //   {time: new Date(2015,11,13,11,1), name: '小英勝選', url: 'http://goo.gl/kLLY9Y'},
+  //   {time: new Date(2015,11,18,12,10), name: '蔡英文成為第一個女總統', url: 'http://goo.gl/kLLY9Y'},
+  // ];
 
 
   //取得GET過來的資訊
@@ -37,9 +24,10 @@ $(document).ready(function(){
   var tag_arr = [];
   // tag_arr.push("蔡英文");
   tag_arr.push(tag);
-    // tag_arr.push("寵物");
+  // tag_arr.push("寵物");
 
 
+  //第一次load近來 先抓一次api
   $.ajax({
     url: 'api/get_news_by_tag.php',
     dataType: "json", //讓回傳的東西直接是js看得懂的jsonObj
@@ -58,6 +46,40 @@ $(document).ready(function(){
       renderTimeline(jsonObj, tag); //重印timeline
     }
   });
+
+
+  //接下來監聽checkbox的動作 每次有動作就觸發 重抓api
+  $('.chk').change(function() {
+
+    var tag_arr = [];
+
+    $('.chk:checked').each(function(){
+      // alert($(this).attr("value"));/要傳的tag的陣列
+      // tag_arr.push("蔡英文");
+      tag_arr.push($(this).attr("value"));
+
+      //抓完選取的checkbox後 重刷頁面
+      $.ajax({
+        url: 'api/get_news_by_tag.php',
+        dataType: "json", //讓回傳的東西直接是js看得懂的jsonObj
+        type:'POST',                
+        data: {tag_arr: tag_arr},
+        error:function(e){
+          alert('Ajax request 發生錯誤');
+        },
+        success: function(jsonObj){
+          // alert('Ajax success!');
+          // alert(jsonObj);
+          for(var count in jsonObj){ //將json的date格式轉成d3可以吃的模式
+            jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
+            // alert(jsonObj[count]['time']);
+          }
+          renderTimeline(jsonObj, tag); //重印timeline
+        }
+      });
+    });
+    
+  }); 
 
 
 
@@ -87,6 +109,8 @@ $(document).ready(function(){
   function renderTimeline(json_data, tag){
     //Start to handle page task
     $("#title").text("選取tag：" + tag);
+
+    $("#tl").html(""); //先清空時間軸 再重畫
 
     var chart = new d3KitTimeline('#tl', {
         direction: 'right',

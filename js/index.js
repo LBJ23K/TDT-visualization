@@ -25,7 +25,7 @@ $(document).ready(function(){
     // d3.json("data.json", function(error, data){ //拿來讀.json檔的時候才要用
       var bleed = 100;
       var width = screen.width; //原來用960
-      var height = 1000; //原來用760 圖會被砍掉
+      var height = 1200; //原來用760 圖會被砍掉
 
       var dataobj = { children: jsondata };
       var pack = d3.layout.pack()
@@ -53,7 +53,7 @@ $(document).ready(function(){
       node.append("circle")
           .attr("class", "circle")  // 新增叫circle的class (css那有對應的hover動作)
           .attr({
-            r : function(it) { return it.r-30; }, // 用 r 當半徑
+            r : function(it) { return Math.log(it.r)/Math.log(10); }, // 用 r 當半徑
             fill: function(it) { return color(it.tag); },
             stroke: function(it) { return color(it.tag); }, // 邊框畫跟bubble一樣的顏色 hover時會有效果
           })
@@ -70,7 +70,7 @@ $(document).ready(function(){
           });
 
       node.append("text")
-          .text(function(it)  { return (it.value>30 ? it.tag : ""); }) // 篇數如果大於一定程度，會顯示標題
+          .text(function(it)  { return (it.value>10 ? it.tag : ""); }) // 篇數如果大於一定程度，會顯示標題
           .style("font-size", function(d) { return Math.min(1.8 * d.r, (1.8 * d.r - 8) / this.getComputedTextLength() * 24) + "px"; })
           .attr("dy", ".35em"); //往y軸移動的樣子
       // });

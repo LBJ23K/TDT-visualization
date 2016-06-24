@@ -15,7 +15,7 @@
 
 	include("../db_connect.php");
 	
-	$sql="SELECT * FROM `tag_news_count`"; 
+	$sql="SELECT * FROM `tag_news_count` WHERE `count`>10 "; 
 	$result = $conn->query($sql) or die($conn->error);
 
 	$arr = [];
@@ -33,7 +33,7 @@
 	shuffle($arr); //讓array亂掉
 
     $json_arr = array(); //存到新的json陣列 
-    $limit = 3; //總共只存limit的筆數
+    $limit = 50; //總共只存limit的筆數
     for ($i = 0; $i <$limit; $i++) 
     {
         $json_arr[$i] = $arr[$i];

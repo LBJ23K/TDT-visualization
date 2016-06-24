@@ -46,7 +46,7 @@
     //印出最後的tag
     foreach ($final_tag_arr as $t) {
       // <div class='checkbox'>
-      echo "<label><input type='checkbox' value=''>".$t."</label>";
+      echo "<label><input type='checkbox' class='chk' value='".$t."'>".$t."</label>";
       // echo $t." ";
     }
 
