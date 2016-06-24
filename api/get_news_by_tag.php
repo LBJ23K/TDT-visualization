@@ -68,12 +68,14 @@
 	while($row = $result -> fetch_assoc()){ //印出新聞
 
 		// $date = new DateTime($row["time"]);
-
+		$summary = explode("|||", $row["summary"]);
 		$json_arr[$count] = array(
 			"title" => $row["title"],
 			"content" => $row["content"],
 			"cluster_id" => $row["cluster_id"],
 			"time" => $row["time"],
+			"url" => $row["url"],
+			"summary" => $summary,
 		);
 		
 		$count++;

@@ -2,7 +2,7 @@ body {
    padding-top: 70px;
   /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
-.axis path{
+/*.axis path{
   fill: none;
   stroke-width: 2px;
   stroke: #222;
@@ -20,11 +20,11 @@ body {
 
 text.label-text{
   font-size: 12px;
-}
+}*/
 
 body{
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-align: center;
+  /*text-align: center;*/
   background-color: #eee;
 }
 

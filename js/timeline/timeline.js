@@ -39,6 +39,7 @@ $(document).ready(function(){
     success: function(jsonObj){
       // alert('Ajax success!');
       // alert(jsonObj);
+      // console.log(jsonObj[1])
       for(var count in jsonObj){ //將json的date格式轉成d3可以吃的模式
         jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
         // alert(jsonObj[count]['time']);
@@ -153,8 +154,28 @@ $(document).ready(function(){
     return vars;
   }
 
-
   function renderTimeline(json_data, origin_tag){
+    $("#title").text("選取tag：" + origin_tag);
+    $("#tl").html("");
+    var block="", d;
+    for(var count in json_data){ //將json的date格式轉成d3可以吃的模式
+        d = new Date(json_data[count]['time']);
+        json_data[count]['time'] = d.getFullYear()-1911 + '/' + (parseInt(d.getMonth())+1) + '/' + d.getDate();
+        block+="<div class='cd-timeline-block'>\
+                  <div class='cd-timeline-img cd-picture'>\
+                  </div> \
+                  <div class='cd-timeline-content'>\
+                    <h2>"+json_data[count]['title']+"</h2>\
+                    <p>"+json_data[count]['summary'][0]+"</p>\
+                    <a href='"+json_data[count]["url"]+"' class='cd-read-more' target='_blank'>Read more</a>\
+                    <span class='cd-date'>"+json_data[count]['time']+"</span>\
+                  </div> \
+                </div>";
+      }
+
+    $("#tl").html(block);
+  }
+  function renderTimeline2(json_data, origin_tag){
     //Start to handle page task
     $("#title").text("選取tag：" + origin_tag);
 
@@ -182,8 +203,8 @@ $(document).ready(function(){
     chart.data(json_data).resizeToFit(); //如果是左右顯示 它自動調寬度; 如果是上下顯示法 它自動調高度
     //click事件
     chart.on("labelClick", function(obj,count){
-      console.log(obj); //印出object內容在console上
-      alert(obj["content"]);
+      // console.log(obj); //印出object內容在console上
+      // alert(obj["content"]);
 
       //跳轉新分頁 開啟新聞的url
       // var newwin = window.open();
