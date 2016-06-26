@@ -16,7 +16,7 @@ $(document).ready(function(){
   // ];
 
   //color depend on cluster_id, use global to prevent update color when click other tag
-  color = {}
+  var colorJson = {}
   //取得GET過來的資訊
   var origin_tag = $_GET("tag");
   origin_tag = decodeURI(origin_tag); //傳過來的時候有encode 所以讀取的時候要decode
@@ -32,7 +32,10 @@ $(document).ready(function(){
     type:'POST',                
     data: {tag_arr: tag_arr},
     error:function(e){
-      alert('Ajax request 發生錯誤');
+      if(e.responseText.includes("SQL")){
+        window.location.href = "error.php";
+      }
+      else  alert('Ajax request 發生錯誤');
     },
     success: function(jsonObj){
       for(var count in jsonObj){ //將json的date格式轉成d3可以吃的模式
@@ -73,7 +76,10 @@ $(document).ready(function(){
         type:'POST',                
         data: {tag_arr: tag_arr},
         error:function(e){
-          alert('Ajax request 發生錯誤');
+          if(e.responseText.includes("SQL")){
+            window.location.href = "error.php";
+          }
+          else  alert('Ajax request 發生錯誤');
         },
         success: function(jsonObj){
           for(var count in jsonObj){ //將json的date格式轉成d3可以吃的模式
@@ -99,7 +105,10 @@ $(document).ready(function(){
               origin_tag: origin_tag,
             },
       error:function(e){
-        alert('Ajax request 發生錯誤');
+        if(e.responseText.includes("SQL")){
+          window.location.href = "error.php";
+        }
+        else  alert('Ajax request 發生錯誤');
       },
       success: function(jsonObj){
 
@@ -114,7 +123,7 @@ $(document).ready(function(){
             view += ("<button type='button' class='btn btn-default'>"+t+"</button>")
           }
         }
-        $("#button-group").html(view);
+        $("#button-group").html(view).hide().fadeIn();
         checkBoxBhange();
       }
     });
@@ -123,11 +132,11 @@ $(document).ready(function(){
 
 
 
-  //定義顏色
-  var colorScale = d3.scale.category10();
-  function color(d){
-    return colorScale(d.title); //依據標題分派顏色
-  }
+  // //定義顏色
+  // var colorScale = d3.scale.category10();
+  // function color(d){
+  //   return colorScale(d.title); //依據標題分派顏色
+  // }
 
   //解剖url上的get訊息
   function $_GET(param) {
@@ -151,13 +160,13 @@ $(document).ready(function(){
     var block="", d="", cluster_id=0;
     for(var count in json_data){ //將json的date格式轉成d3可以吃的模式
         cluster_id = json_data[count]["cluster_id"]
-        if( !color.hasOwnProperty(cluster_id)){
-          color[cluster_id] = randomColor();
+        if( !colorJson.hasOwnProperty(cluster_id)){
+          colorJson[cluster_id] = randomColor();
         }
         d = new Date(json_data[count]['time']);
         json_data[count]['time'] = d.getFullYear()-1911 + '/' + (parseInt(d.getMonth())+1) + '/' + d.getDate();
         block+="<div class='cd-timeline-block'>\
-                  <div class='cd-timeline-img cd-picture' style='background-color:"+color[cluster_id]+"'>\
+                  <div class='cd-timeline-img cd-picture' style='background-color:"+colorJson[cluster_id]+"'>\
                   </div> \
                   <div class='cd-timeline-content'>\
                     <h2>"+json_data[count]['title']+"</h2>\

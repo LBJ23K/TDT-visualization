@@ -27,7 +27,6 @@
 		// echo $count;
 		$all_arr[$count] = $arr;
 	}
-
 	//取array之間的交集(就是cluster的交集)
 	//大於一個tag再做
 	// echo $all_arr[0];
