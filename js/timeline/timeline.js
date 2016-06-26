@@ -32,7 +32,7 @@ $(document).ready(function(){
     type:'POST',                
     data: {tag_arr: tag_arr},
     error:function(e){
-      if(e.responseText.includes("SQL")){
+      if(e.responseText.indexOf("SQL") >= 0){
         window.location.href = "error.php";
       }
       else  alert('Ajax request 發生錯誤');
@@ -76,7 +76,7 @@ $(document).ready(function(){
         type:'POST',                
         data: {tag_arr: tag_arr},
         error:function(e){
-          if(e.responseText.includes("SQL")){
+          if(e.responseText.indexOf("SQL") >= 0){
             window.location.href = "error.php";
           }
           else  alert('Ajax request 發生錯誤');
@@ -105,7 +105,7 @@ $(document).ready(function(){
               origin_tag: origin_tag,
             },
       error:function(e){
-        if(e.responseText.includes("SQL")){
+        if(e.responseText.indexOf("SQL") >= 0){
           window.location.href = "error.php";
         }
         else  alert('Ajax request 發生錯誤');
