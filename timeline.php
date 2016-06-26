@@ -59,10 +59,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timeline</title>
+  
+
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="http://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
   <link href="css/timeline.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+  <link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+  
+  
 </head>
 
 <body>
@@ -81,7 +87,7 @@
   <div class="container">
       <div class="row">
           <div class="col-lg-12 text-center">
-              <h1 id="title" style="font-family: 'Noto Sans TC', sans-serif;"></h1>
+              <h1 id="title" style="font-family: 'Noto Sans TC', sans-serif;font-size:36px;margin-bottom:20px;"></h1>
               <p class="lead">新聞事件時間軸</p>
               
               <div id="checkbox_area"></div>
@@ -99,8 +105,9 @@
 
 
   <!-- 縱向時間軸 向右 -->
-  <div class="timeline" id="tl"></div>
-
+  <section id="cd-timeline" class="cd-container">
+    <div id="tl"></div>
+  </section>
 
 
   <!-- jQuery Version 1.11.1 -->
@@ -114,7 +121,8 @@
   <script src="js/timeline/d3kit-timeline.min.js"></script>
   <!-- /. For timeline usage -->
   <script src="js/timeline/timeline.js"></script>
-
+  <script src="js/modernizr.js"></script> <!-- Modernizr -->
+  <script src="js/timeline/randomColor.js"></script>
 
 
 

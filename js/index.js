@@ -58,7 +58,7 @@ $(document).ready(function(){
             stroke: function(it) { return color(it.tag); }, // 邊框畫跟bubble一樣的顏色 hover時會有效果
           })
           .on('click', function(it){
-            alert("主題:" + it.tag + ", 篇數:" + it.value);
+            // alert("主題:" + it.tag + ", 篇數:" + it.value);
             //跳轉到timeline 帶參數
             var target = encodeURI("timeline.php?tag=" + it.tag);
             window.location.href = target;
