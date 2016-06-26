@@ -20,12 +20,9 @@ $(document).ready(function(){
   //取得GET過來的資訊
   var origin_tag = $_GET("tag");
   origin_tag = decodeURI(origin_tag); //傳過來的時候有encode 所以讀取的時候要decode
-
   //要傳的tag的陣列
   var tag_arr = [];
-  // tag_arr.push("蔡英文");
   tag_arr.push(origin_tag);
-  // tag_arr.push("寵物");
 
 
   //第一次load近來 先抓一次tag包含新聞的api
@@ -38,12 +35,8 @@ $(document).ready(function(){
       alert('Ajax request 發生錯誤');
     },
     success: function(jsonObj){
-      // alert('Ajax success!');
-      // alert(jsonObj);
-      // console.log(jsonObj[1])
       for(var count in jsonObj){ //將json的date格式轉成d3可以吃的模式
         jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
-        // alert(jsonObj[count]['time']);
       }
       renderTimeline(jsonObj, origin_tag); //重印timeline
     }
@@ -57,14 +50,20 @@ $(document).ready(function(){
 
 
   function checkBoxBhange(){
-    //接下來監聽checkbox的動作 每次有動作就觸發 重抓api
-    $('.chk').change(function() {
+    //接下來監聽button的動作 每次有動作就觸發 重抓api
+    $('#button-group button').click(function() {
 
       var tag_arr = [];
       tag_arr.push(origin_tag);
-
-      $('.chk:checked').each(function(){
-        tag_arr.push($(this).attr("value"));
+      
+      //若為取消選取 將class primary轉為default, 避免push in tag_attr
+      if($(this).hasClass("btn-primary")){
+        $(this).removeClass("btn-primary").addClass("btn btn-default");
+      }
+      //else push in tag_attr
+      else tag_arr.push($(this).text());
+      $('#button-group .btn-primary').each(function(){
+        tag_arr.push($(this).text());
       });
 
       //抓完選取的checkbox後 重刷頁面
@@ -77,15 +76,10 @@ $(document).ready(function(){
           alert('Ajax request 發生錯誤');
         },
         success: function(jsonObj){
-          // alert('Ajax success!');
-          // alert(jsonObj);
           for(var count in jsonObj){ //將json的date格式轉成d3可以吃的模式
             jsonObj[count]['time'] = new Date(jsonObj[count]['time']);
-            // alert(jsonObj[count]['time']);
           }
           renderTimeline(jsonObj, origin_tag); //重印timeline
-
-          // alert("a");
           get_intersect_tag(tag_arr);
 
         }
@@ -109,23 +103,19 @@ $(document).ready(function(){
       },
       success: function(jsonObj){
 
-        $("#checkbox_area").html("");
-
+        $("#button-group").html("");
         var view = "";
         for(var count in jsonObj){
           var t = jsonObj[count];
           if(tag_arr.indexOf(t) > -1){
-            view += ("<label><input type='checkbox' class='chk' checked value='"+t+"'>"+t+"</label>");
+            view += ("<button type='button' class='btn btn-primary'>"+t+"</button>")
           }
           else{
-            view += ("<label><input type='checkbox' class='chk' value='"+t+"'>"+t+"</label>");
+            view += ("<button type='button' class='btn btn-default'>"+t+"</button>")
           }
-          // alert(jsonObj[count]);
         }
-        $("#checkbox_area").html(view);
-
+        $("#button-group").html(view);
         checkBoxBhange();
-        // echo "<label><input type='checkbox' class='chk' value='".$t."'>".$t."</label>";
       }
     });
   }
@@ -180,45 +170,44 @@ $(document).ready(function(){
 
     $("#tl").html(block);
   }
-  function renderTimeline2(json_data, origin_tag){
-    //Start to handle page task
-    $("#title").text("選取tag：" + origin_tag);
+  // function renderTimeline2(json_data, origin_tag){
+  //   //Start to handle page task
+  //   $("#title").text("選取tag：" + origin_tag);
 
-    $("#tl").html(""); //先清空時間軸 再重畫
+  //   $("#tl").html(""); //先清空時間軸 再重畫
 
-    var chart = new d3KitTimeline('#tl', {
-        direction: 'right',
-        // initialWidth: screen.width/5*4.5, 
-        initialHeight: screen.height, //不設定他好像就會自動調整高度？
-        margin: {left: 100, right: 30, top: 50, bottom: 50},
-        textFn: function(d){ //定義label上要顯示什麼字
-          return (d.time.getFullYear()-1911) + '/' + (parseInt(d.time.getMonth())+1) + '/' + d.time.getDate() + ' - ' + d.title;
-          // return d.title;
-        },
-        dotColor: color,
-        labelBgColor: color,
-        linkColor: color,
-        labella: {
-          maxPos: 1000,
-          algorithm: 'simple'
-        },
-        labelPadding: {left: 10, right: 10, top: 12, bottom: 12}, //調整標籤大小的感覺
-    });
+  //   var chart = new d3KitTimeline('#tl', {
+  //       direction: 'right',
+  //       // initialWidth: screen.width/5*4.5, 
+  //       initialHeight: screen.height, //不設定他好像就會自動調整高度？
+  //       margin: {left: 100, right: 30, top: 50, bottom: 50},
+  //       textFn: function(d){ //定義label上要顯示什麼字
+  //         return (d.time.getFullYear()-1911) + '/' + (parseInt(d.time.getMonth())+1) + '/' + d.time.getDate() + ' - ' + d.title;
+  //       },
+  //       dotColor: color,
+  //       labelBgColor: color,
+  //       linkColor: color,
+  //       labella: {
+  //         maxPos: 1000,
+  //         algorithm: 'simple'
+  //       },
+  //       labelPadding: {left: 10, right: 10, top: 12, bottom: 12}, //調整標籤大小的感覺
+  //   });
 
-    chart.data(json_data).resizeToFit(); //如果是左右顯示 它自動調寬度; 如果是上下顯示法 它自動調高度
-    //click事件
-    chart.on("labelClick", function(obj,count){
-      // console.log(obj); //印出object內容在console上
-      // alert(obj["content"]);
+  //   chart.data(json_data).resizeToFit(); //如果是左右顯示 它自動調寬度; 如果是上下顯示法 它自動調高度
+  //   //click事件
+  //   chart.on("labelClick", function(obj,count){
+  //     // console.log(obj); //印出object內容在console上
+  //     // alert(obj["content"]);
 
-      //跳轉新分頁 開啟新聞的url
-      // var newwin = window.open();
-      // newwin.location= obj["url"];
-    });
+  //     //跳轉新分頁 開啟新聞的url
+  //     // var newwin = window.open();
+  //     // newwin.location= obj["url"];
+  //   });
 
-    // chart.on("labelMouseover", function(){
+  //   // chart.on("labelMouseover", function(){
       
-    // });
-  }
+  //   // });
+  // }
 });
 

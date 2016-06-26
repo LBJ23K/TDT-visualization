@@ -90,7 +90,7 @@
               <h1 id="title" style="font-family: 'Noto Sans TC', sans-serif;font-size:36px;margin-bottom:20px;"></h1>
               <p class="lead">新聞事件時間軸</p>
               
-              <div id="checkbox_area"></div>
+              <div id="button-group" class="btn-group" role="group"></div>
               <!-- <ul class="list-unstyled">
                   <li>About</li>
                   <li>Contact</li>
@@ -115,10 +115,10 @@
   <!-- Bootstrap Core JavaScript -->
   <script src="js/bootstrap.min.js"></script>
   <!-- For timeline usage -->
-  <script src="js/timeline/d3.min.js"></script>
+<!--   <script src="js/timeline/d3.min.js"></script>
   <script src="js/timeline/d3kit.min.js"></script>
   <script src="js/timeline/labella.min.js"></script>
-  <script src="js/timeline/d3kit-timeline.min.js"></script>
+  <script src="js/timeline/d3kit-timeline.min.js"></script> -->
   <!-- /. For timeline usage -->
   <script src="js/timeline/timeline.js"></script>
   <script src="js/modernizr.js"></script> <!-- Modernizr -->

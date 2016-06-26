@@ -59,6 +59,7 @@
 		}
 		$count++;
 	}
+	$sql .= "ORDER BY time";
 	// echo $sql;
 	$result = $conn->query($sql) or die($conn->error);
 
