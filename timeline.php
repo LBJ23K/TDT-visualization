@@ -77,7 +77,7 @@
       <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-              <a class="navbar-brand" href="index.html">TDT-NEWS-VISUALIZATION</a>
+              <a class="navbar-brand" href="index.html">NEWS-VISUALIZATION</a>
           </div>
       </div>
       <!-- /.container -->
@@ -123,6 +123,7 @@
   <script src="js/timeline/timeline.js"></script>
   <script src="js/modernizr.js"></script> <!-- Modernizr -->
   <script src="js/timeline/randomColor.js"></script>
+
 
 
 
